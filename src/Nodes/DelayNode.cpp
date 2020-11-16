@@ -49,6 +49,7 @@ void DelayLine::setSampleDelay(int delay) {
 
 
 
+
 DelayNode::DelayNode() {
 	; // be sure to call begin(fs)
 }
@@ -73,6 +74,7 @@ void DelayNode::begin(int sampleRate, int channelCount) {
 
 	setDelayMs(80.f, false);
 	setMix(0.5f, false);
+	setDelayFeedBack(1.4f);
 
 	lp.begin(fs, channelCount);
 	lp.setupFilter(FilterNode::LPF, 1200, 0.5f);
@@ -86,7 +88,7 @@ float DelayNode::processSample(float sample, int channel) {
 	float y = delayLine.pop(channel);
 
 	// feedback and low pass, still arbitrary
-	float fb = 1.4f *  y;
+	float fb = delayFeedBack *  y;
 	fb = lp.processSample((sample+fb)*0.5f, channel);
 
 	delayLine.push(fb, channel);
@@ -116,3 +118,7 @@ void DelayNode::setDelayMs(float ms, bool fade) {
 	delayLine.setSampleDelay(floor(delayMillis[kCurrent] * fs * 0.001));
 }
 
+// add feedback setting
+void DelayNode::setDelayFeedBack(float feedBack) {
+	delayFeedBack = constrain(feedBack, 0, 4);
+}

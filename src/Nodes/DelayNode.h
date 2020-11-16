@@ -17,6 +17,7 @@
 
 #define MAX_DELAY_LEN (12000) // 520kB RAM is a show stopper
 
+
 class DelayLine {
 
 public:
@@ -28,6 +29,8 @@ public:
 	float pop(int channel);
 
 	void setSampleDelay(int delay);
+	
+	
 
 protected:
 
@@ -58,6 +61,9 @@ public:
 
 	void setDelayMs(float ms, bool fade = true);
 	float delayMs() { return delayMillis[kCurrent]; }
+
+	float delayFeedBack = 1.4f;
+	void setDelayFeedBack(float feedBack);
 
 	int maxDelayMs() { return maxDelayTimeMs; }
 
