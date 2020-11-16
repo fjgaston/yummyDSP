@@ -80,6 +80,7 @@ int AudioDriver::setup(int fs, int channelCount, int bitClkPin, int lrClkPin, in
 				.dma_buf_count = 2,
 				.dma_buf_len = AudioDriver::BufferSize,
 				.use_apll = true,
+				.tx_desc_auto_clear = true, //added this line to compile with my ESP32 board
 				.fixed_mclk = mclk_rate
 		};
 
